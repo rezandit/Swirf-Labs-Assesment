@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Data Management</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .header-text {
+            max-width: 1200px;
+            margin: 0 auto 30px;
+        }
+
+        .header-text h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #1a1c32;
+        }
+
+        .header-text p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .main-wrapper {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: #000080;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        label span {
+            color: red;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input[readonly] {
+            background-color: #f9f9f9;
+            color: #888;
+        }
+
+        textarea {
+            height: 80px;
+            resize: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: #000080;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* TABLE DESIGN [cite: 10, 11] */
+        .table-container {
+            overflow-x: auto;
+            background: #fff;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* Header: Navy Blue, White Text, 2x Size [cite: 11] */
+        thead th {
+            background-color: #000080;
+            color: #ffffff;
+            font-size: 24px;
+            padding: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Alignment & Proportions [cite: 12, 13, 15] */
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 30%;
+            text-align: right;
+        }
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 10%;
+            text-align: center;
+        }
+
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 40%;
+            text-align: left;
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 20%;
+            text-align: right;
+        }
+
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        td:nth-child(2) {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* RESPONSIVE [cite: 27] */
+        @media (max-width: 900px) {
+            .main-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .header-text {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-text">
+        <h1>Employee Data Management</h1>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="card">
+            <h2>Registration Form</h2>
+            <form id="emp_form">
+                <div class="form-group">
+                    <label>Name <span>*</span></label>
+                    <input type="text" name="name" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Identification Number <span>*</span></label>
+                    <input type="text" name="id_num" id="id_num" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Place of Birth</label>
+                        <input type="text" name="pob" id="pob">
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Birth <span>*</span></label>
+                        <input type="date" name="dob" id="dob" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="text" id="age" name="age" readonly value="--">
+                </div>
+                <div class="form-group">
+                    <label>Occupation <span>*</span></label>
+                    <select name="occupation" id="occupation" required>
+                        <option value="">Select Occupation</option>
+                        <option value="Unemployed">Unemployed</option>
+                        <option value="Programmer">Programmer</option>
+                        <option value="Designer">Designer</option>
+                        <option value="Architect">Architect</option>
+                        <option value="Artist">Artist</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea name="address" id="address"></textarea>
+                </div>
+                <button type="submit" class="btn-submit">REGISTER EMPLOYEE</button>
+                <p id="errorMessage" style="color:red; display:none; font-size:12px; margin-top:10px;"></p>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <table id="employeeTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Address</th>
+                        <th>Occupation</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function getAge(dateString) {
+            var today = new Date();
+            var birthDate = new Date(dateString);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        document.getElementById('dob').addEventListener('change', function (e) {
+            if (e.target.value) {
+                document.getElementById('age').value = getAge(e.target.value);
+            }
+        });
+
+        document.getElementById('emp_form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var form = this;
+            var formData = new FormData(form);
+            var errorMsg = document.getElementById('errorMessage');
+
+            fetch('action.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(function (res) {
+                    return res.json();
+                })
+                .then(function (data) {
+                    if (data.success) {
+                        form.reset();
+                        document.getElementById('age').value = "--";
+                        errorMsg.style.display = 'none';
+                        loadTable();
+                        alert(data.message);
+                    } else {
+                        errorMsg.innerText = data.message;
+                        errorMsg.style.display = 'block';
+                    }
+                })
+                .catch(function (err) {
+                    console.error(err);
+                });
+        });
+
+        function loadTable() {
+            fetch('get_emp.php')
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                    var html = '';
+                    data.forEach(function (emp) {
+                        html += '<tr>' +
+                            '<td>' + emp.name + '</td>' +
+                            '<td>' + getAge(emp.date_of_birth) + '</td>' +
+                            '<td>' + (emp.address || '-') + '</td>' +
+                            '<td>' + emp.occupation + '</td>' +
+                            '</tr>';
+                    });
+                    document.getElementById('tableBody').innerHTML = html;
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadTable);
+    </script>
+</body>
+
+</html>
